@@ -3,9 +3,9 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 from .forms import NameForm
-from .models import User
 
 def index(request):
     if request.method == 'POST':
@@ -20,7 +20,7 @@ def index(request):
             else:
                 request.session['known'] = True
             request.session['name'] = name
-            return HttpResponseRedirect(reverse('app:index'))
+            return HttpResponseRedirect(reverse('blog:index'))
     form = NameForm()
     context = {
         'current_time': timezone.now(), 
@@ -28,8 +28,8 @@ def index(request):
         'name': request.session.get('name'),
         'known': request.session.get('known', False),
     }
-    return render(request, 'app/index.html', context)
+    return render(request, 'blog/index.html', context)
 
 def user(request, name):
     context = {'name': name}
-    return render(request, 'app/user.html', context)
+    return render(request, 'blog/user.html', context)
