@@ -1,7 +1,10 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+from django.utils import timezone
 
 def index(request):
-    return HttpResponse('<h1>Hello World!</h1>')
+    context = {'current_time': timezone.now()}
+    return render(request, 'app/index.html', context)
 
 def user(request, name):
-    return HttpResponse('<h1>Hello, {}!</h1>'.format(name))
+    context = {'name': name}
+    return render(request, 'app/user.html', context)
