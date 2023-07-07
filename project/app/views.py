@@ -5,15 +5,20 @@ from django.urls import reverse
 from django.contrib import messages
 
 from .forms import NameForm
+from .models import User
 
 def index(request):
     if request.method == 'POST':
         form = NameForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data.get('name')
-            old_name = request.session.get('name')
-            if old_name is not None and old_name != name:
-                messages.success(request, 'Looks like you have changed your name!')
+            user = User.objects.filter(username=name).first()
+            if not user:
+                user = User(username=name)
+                user.save()
+                request.session['known'] = False
+            else:
+                request.session['known'] = True
             request.session['name'] = name
             return HttpResponseRedirect(reverse('app:index'))
     form = NameForm()
@@ -21,6 +26,7 @@ def index(request):
         'current_time': timezone.now(), 
         'form': form, 
         'name': request.session.get('name'),
+        'known': request.session.get('known', False),
     }
     return render(request, 'app/index.html', context)
 
