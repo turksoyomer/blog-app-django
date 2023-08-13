@@ -2,20 +2,7 @@
 
 {% block page_content %}
 <div class="page-header">
-  <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
-  {% if not known %}
-  <p>Pleased to meet you!</p>
-  {% else %}
-  <p>Happy to see you again!</p>
-  {% endif %}
+  <h1>Hello, {% if request.user.is_authenticated %}{{ request.user.first_name }}{% else %}Stranger{% endif %}!</h1>
+
 </div>
-<form action="" method="post">
-  {% csrf_token %}
-  <div class="mb-3">
-    {{ form.name.label_tag }}
-    {{ form.name }}
-    <div class="form-text">We'll never share your name with anyone else.</div>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
 {% endblock page_content %}

@@ -1,0 +1,31 @@
+{% extends "blog/base.html" %}
+
+{% block title %}<title>Flasky - Login</title>{% endblock title %}
+
+{% block page_content %}
+<div class="page-header">
+  <h1>Login</h1>
+</div>
+<form action="" method="post">
+  {% csrf_token %}
+  <div class="mb-3">
+    {{ form.email.label_tag }}
+    {{ form.email }}
+  </div>
+  <div class="mb-3">
+    {{ form.password.label_tag }}
+    {{ form.password }}
+  </div>
+  <div class="mb-3">
+    {{ form.remember_me.label_tag }}
+    {{ form.remember_me }}
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<p>
+  New user?
+  <a href="{% url 'blog:register' %}">
+    Click here to register
+  </a>
+</p>
+{% endblock %}
